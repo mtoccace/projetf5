@@ -1,0 +1,66 @@
+{% extends "admin/base.html.twig" %}
+
+{% block title %}Fiche livre{% endblock %}
+
+{% block body %}
+    <h2>Fiche du livre n°{{ livre.id }}</h2>
+
+    <ul class="list-group">
+        <li class="list-group-item"><strong>Titre :</strong> {{ livre.titre }}</li>
+        <li class="list-group-item"><strong>Auteur :</strong> {{ livre.auteur }}</li>
+        <li class="list-group-item"><strong>Catégorie : </strong> {{ livre.categorie.titre }}</li>
+        <li class="list-group-item"><strong>Emprunts :</strong> 
+            <table class="table table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Abonné</th>
+                        <th>Emprunté le</th>
+                        <th>Rendu le</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for emprunt in livre.emprunts %}
+                        <td>{{ emprunt.abonne.pseudo }}</td>
+                        <td>{{ emprunt.dateEmprunt|date("d/m/y") }}</td>
+                        <td>{{ emprunt.dateRetour|date("d/m/y") }}</td>
+                    {% endfor %}
+                
+                </tbody>
+
+            </table>
+        
+        </li>
+    </ul>
+    
+    <a href="{{ path("livre") }}">
+        <i class="fa fa-reply"></i>
+    </a>
+
+{% endblock %}
+
+
+{#  1. Ajouter une route pour afficher la fiche d'un livre (pour un admin) dans laquelle il y aura toutes les informations du livre
+plus la liste de tous les emprunts de ce livre
+reponse : ds livre controler faire une nouvelle route, public function et rediriger vers l'affichage qui se trouve ds livre / fiche.html.twig 
+
+dans menu global = mettre le lien de la page twig grace à son nom "name" indiqué dans le controller
+
+2. Mettre un lien dans la liste des livres vers cette route
+reponse : ds template/livre/index.html.twig : ajouter un lien redirigeant vers la fiche du livre  livre_fiche libvre correspondant au dossier et fiche le nom du twig
+
+
+Pour demain : 
+
+1- Créer un contrôleur Profil: 
+reponse : terminal 
+
+2- Les routes de ce contrôleur ne seront accessibles qu'au utilisateurs ROLE_LECTEUR (toutes les 
+routes commenceront par /profil) :
+reponse : config/package/security ou profil controller/ @is granted ac son use en haut 
+
+3- La route /profil devra afficher les informations de l'utilisateur connecté (son pseudo, son prénom et nom) ainsi que la liste
+de ses emprunts:
+reponse : template/profil/index.html.twig et utiliser app.User pour recuperer et afficher les informations 
+#}
+
+

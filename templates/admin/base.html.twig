@@ -1,0 +1,12 @@
+ {% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    {# la fonction parent() permet de conserver le contenu du block qui est défini ds le template parent (sinon le contenu du block est écrasé  (cf base.html.twig))  #}
+    {{ encore_entry_link_tags("admin")}}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    {{ encore_entry_script_tags("admin")}}
+{% endblock %}

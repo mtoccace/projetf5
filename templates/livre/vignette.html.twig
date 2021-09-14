@@ -1,0 +1,64 @@
+
+<div class="card ">
+    <h4 class="card-header">{{ livre.titre }}</h4>
+
+    <div class="row  couverture">
+        <div class="col-4 d-flex align-items-center">
+            <img class="card-img p-1" src="{{dossier_images ~ livre.couverture}}" alt="pas de couverture">
+        </div>
+
+        <div class="col-8">
+            <div class="card-body">
+                <p class="card-text">De : {{ livre.auteur }}</p>
+            </div>
+
+           
+
+
+            
+        </div>
+    </div>
+    
+    <div class="card-footer">
+        <a href="" class="card-link"> 
+            <i class="fa fa-book"></i> Voir plus 
+        </a>
+        {% if is_granted("ROLE_LECTEUR") %}
+            {% if livres_empruntes is defined %}
+                {% if  livre not in livres_empruntes %}
+                    <a href="{{path("profil_emprunter", { id:livre.id}) }}" class="card-link">
+                    <i class="fa fa-cart-arrow-down"></i> Emprunter
+                </a>
+                {% else %}
+
+            <a class="card-link text-danger"> 
+                <i class="fa fa-times"></i> Indisponible
+            </a>
+                {% endif %}
+            {% endif %}
+        {% endif %}
+    </div>
+</div>
+      
+{#  Sur la page d'accueil, afficher tous les livres en utilisant le fichier
+livre/vignette.html.twig pour chaque livre
+
+les div avec la class 'card' doivent être dans une div qui a la class 'card-columns'
+
+#}
+
+{# EXO : 1. Sur les vignettes des livres, le lien 'emprunter' ne doit apparaitre que si le livre est disponible
+reponse : - controlleur/accueilcontrolleur
+- template/vignette
+
+	2. on ne doit pas pouvoir emprunter un livre qui n'est pas disponible (même si le lien est caché, l'utilisateur
+    	peut mettre l'adresse dans la barre)
+        
+   3. le résultat de la recherche affiche maintenant une erreur. Résoudre cette erreur (via recherche ou controlleur ou ds vignette mettre une condition)
+    
+    4. Dans la fiche Catégorie (route categorie_show), afficher tous les livres qui correspondent à la catégorie.
+    	Il doit y avoir un lien vers la fiche livre (livre_fiche) pour chaque livre : categorie_show) et mettre un a avec le lien
+        
+    5. Afficher des messages de succès pour toutes les routes CRUD  
+    
+    #}

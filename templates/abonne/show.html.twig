@@ -1,0 +1,72 @@
+{% extends 'admin/base.html.twig' %}
+
+{% block title %} Fiche Abonne{% endblock %}
+
+{% block body %}
+    <h1>Fiche Abonne</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ abonne.id }}</td>
+            </tr>
+            <tr>
+                <th>Pseudo</th>
+                <td>{{ abonne.pseudo }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ abonne.roles ? abonne.roles|json_encode : '' }}</td>
+            </tr>
+            
+            <tr>
+                <th>Nom</th>
+                <td>{{ abonne.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prenom</th>
+                <td>{{ abonne.prenom }}</td>
+            </tr>
+
+            <tr>
+                <th>Emprunts</th>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Livre</th>
+                            <th>Emprunté le</th>
+                            <th>Rendu le</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for emprunt in abonne.emprunts %}
+                        <tr>
+                            
+                            
+                            <td>{{ emprunt.livre.titre ~ " - " ~ emprunt.livre.auteur }}</td>
+                            <td>{{ emprunt.dateEmprunt|date('d-m-Y')}}</td> {# Y : annee sur 4 chiffres sinon y : format 2 chiffres #}
+                            <td>{{ emprunt.dateRetour ? emprunt.dateRetour|date('d-m-Y') : '' }}</td>
+                            <td>{# si date emprunt existe als on affiche sinon on ne m'affiche pas. apres la barre verticlae c'est un pipe et apres le filtre #}
+                                <a href="{{ path('emprunt_show', {'id': emprunt.id}) }}"> <i class="fa fa-book"></i></a>
+                                <a href="{{ path('emprunt_edit', {'id': emprunt.id}) }}"><i class="fa fa-edit"></i></a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="3">Aucun emprunt enregistré</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('abonne_index') }}">back to list</a>
+
+    <a href="{{ path('abonne_edit', {'id': abonne.id}) }}">edit</a>
+
+    {{ include('abonne/_delete_form.html.twig') }}
+{% endblock %}
